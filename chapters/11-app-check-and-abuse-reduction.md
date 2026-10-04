@@ -81,7 +81,7 @@ const provider =
       );
 ~~~
 
-Use the Firebase App Check debug provider as described in the official setup guide for your SDK version. The example above marks where the environment-specific provider belongs; it is not a complete debug-provider implementation. Register debug tokens only for development, keep them out of committed files and screenshots, and never ship a debug provider in a production build.
+With the web SDK, set self.FIREBASE_APPCHECK_DEBUG_TOKEN to true in a local development build before initializing App Check. The browser console prints a token. Register that token in the Firebase console for the development app. Keep it out of committed files and screenshots, and never enable debug mode in a production build.
 
 A debug token bypasses the normal attestation flow for the registered test client. Treat it as sensitive access material. Rotate or remove it if exposed.
 

@@ -1474,21 +1474,9 @@ const appCheck = initializeAppCheck(app, {
 Source: [11. App Check and abuse reduction](./11-app-check-and-abuse-reduction.md)
 
 ~~~js
-import {
-  initializeAppCheck,
-  ReCaptchaEnterpriseProvider,
-} from "firebase/app-check";
-
-const provider =
-  import.meta.env.DEV
-    ? new CustomProvider({
-        getToken: async () => {
-          throw new Error("Configure the official App Check debug provider.");
-        },
-      })
-    : new ReCaptchaEnterpriseProvider(
-        import.meta.env.VITE_RECAPTCHA_ENTERPRISE_SITE_KEY,
-      );
+if (import.meta.env.DEV) {
+  self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+}
 ~~~
 
 ## 12. Local Emulator Suite and testing

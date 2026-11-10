@@ -64,24 +64,12 @@ Services and enforcement behavior can differ. Check the current Firebase documen
 Local development and automated test environments may not pass a production attestation provider. Firebase provides a debug provider for these cases.
 
 ~~~js
-import {
-  initializeAppCheck,
-  ReCaptchaEnterpriseProvider,
-} from "firebase/app-check";
-
-const provider =
-  import.meta.env.DEV
-    ? new CustomProvider({
-        getToken: async () => {
-          throw new Error("Configure the official App Check debug provider.");
-        },
-      })
-    : new ReCaptchaEnterpriseProvider(
-        import.meta.env.VITE_RECAPTCHA_ENTERPRISE_SITE_KEY,
-      );
+if (import.meta.env.DEV) {
+  self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+}
 ~~~
 
-With the web SDK, set self.FIREBASE_APPCHECK_DEBUG_TOKEN to true in a local development build before initializing App Check. The browser console prints a token. Register that token in the Firebase console for the development app. Keep it out of committed files and screenshots, and never enable debug mode in a production build.
+Run this before calling initializeAppCheck. The web SDK prints a debug token in the browser console; register it in the Firebase console for the development app. The normal provider initialization can then use the debug token automatically. Keep the token out of committed files and screenshots, and make sure the development-only branch is excluded from production builds.
 
 A debug token bypasses the normal attestation flow for the registered test client. Treat it as sensitive access material. Rotate or remove it if exposed.
 
